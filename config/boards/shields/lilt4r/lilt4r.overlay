@@ -1,5 +1,5 @@
 #include <dt-bindings/zmk/matrix_transform.h>
-#include <physical_layouts.dtsi> // ★必須：ZMK Studio用レイアウト機能の読み込み
+#include <physical_layouts.dtsi>
 #include <dt-bindings/led/led.h>
 
 / {
@@ -10,7 +10,7 @@
         zmk,physical-layout = &default_layout;
     };
 
-    // マトリクス変換（5つのボタンを順番に並べるルール）
+    // マトリクス変換
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <5>;
@@ -20,23 +20,27 @@
         >;
     };
 
-    // ★修正：ZMK Studio向けの物理レイアウト定義（直接配置＋座標データの追加）
-    default_layout: default_layout {
-        compatible = "zmk,physical-layout";
-        display-name = "Default Layout";
-        transform = <&default_transform>;
-        kscan = <&kscan0>;
-        // 幅(100), 高さ(100), X座標, Y座標, 回転, 回転軸X, 回転軸Y
-        keys
-            = <&key_physical_attrs 100 100 0 0 0 0 0>       // SW1 (左上)
-            , <&key_physical_attrs 100 100 100 0 0 0 0>     // SW2 (中央上)
-            , <&key_physical_attrs 100 100 200 0 0 0 0>     // SW3 (右上)
-            , <&key_physical_attrs 100 100 100 100 0 0 0>   // SW4 (中央下)
-            , <&key_physical_attrs 100 100 200 100 0 0 0>   // Encoder (右下)
-            ;
+    // ★ココです！私が消してしまっていた必須のラッパーを復活させました
+    physical_layouts {
+        compatible = "zmk,physical-layouts";
+
+        default_layout: default_layout {
+            compatible = "zmk,physical-layout";
+            display-name = "Default Layout";
+            transform = <&default_transform>;
+            kscan = <&kscan0>;
+            // 幅, 高さ, X座標, Y座標, 回転, 回転軸X, 回転軸Y
+            keys
+                = <&key_physical_attrs 100 100 0 0 0 0 0>       // SW1 (左上)
+                , <&key_physical_attrs 100 100 100 0 0 0 0>     // SW2 (中央上)
+                , <&key_physical_attrs 100 100 200 0 0 0 0>     // SW3 (右上)
+                , <&key_physical_attrs 100 100 100 100 0 0 0>   // SW4 (中央下)
+                , <&key_physical_attrs 100 100 200 100 0 0 0>   // Encoder (右下)
+                ;
+        };
     };
 
-    // 1. キーとプッシュスイッチの配線定義 (kscan-gpio-direct)
+    // 1. キーとプッシュスイッチの配線定義
     kscan0: kscan_0 {
         compatible = "zmk,kscan-gpio-direct";
         label = "KSCAN";
@@ -55,18 +59,18 @@
         label = "ENCODER";
         a-gpios = <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // RoE1 (GPIO6)
         b-gpios = <&xiao_d 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // RoE2 (GPIO7)
-        steps = <80>; // エンコーダーの仕様に合わせて調整
+        steps = <80>;
         status = "okay";
     };
 
     sensors {
         compatible = "zmk,keymap-sensors";
         sensors = <&encoder>;
-        triggers-per-rotation = <20>; // クリック感の数に合わせて調整
+        triggers-per-rotation = <20>;
     };
 };
 
-// 3. LED制御用 PIOのピン設定 (GPIO0 / PIO0_P0)
+// 3. LED制御用 PIOのピン設定
 &pinctrl {
     ws2812_pio0_default: ws2812_pio0_default {
         ws2812 {
@@ -75,7 +79,7 @@
     };
 };
 
-// 4. LEDストリップ (SK6812MINI-E) の定義
+// 4. LEDストリップの定義
 &pio0 {
     status = "okay";
 
@@ -84,7 +88,7 @@
         status = "okay";
         pinctrl-0 = <&ws2812_pio0_default>;
         pinctrl-names = "default";
-        chain-length = <2>; // LEDは2個
+        chain-length = <2>;
         color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 };
