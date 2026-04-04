@@ -22,14 +22,14 @@
             display-name = "Mac Base";
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
             bindings = <
-                &kp RET  &kp RET  &kp RET
-                         &kp RET  &kp C_MUTE
+                &kp RET  &kp N4    &mo MAC_L1
+                         &kp BSPC  &kp C_MUTE
             >;
         };
 
         mac_layer_1 {
             display-name = "Mac L1";
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            sensor-bindings = <&inc_dec_kp C_AC_PAN_LEFT C_AC_PAN_RIGHT>;
             bindings = <
                 &trans   &trans   &trans
                          &trans   &trans
@@ -61,14 +61,14 @@
             display-name = "Win Base";
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
             bindings = <
-                &kp RET  &kp RET  &kp RET
-                         &kp RET  &kp C_MUTE
+                &kp RET  &kp RET   &kp mo WIN_L1
+                         &kp BSPC  &kp C_MUTE
             >;
         };
 
         win_layer_1 {
             display-name = "Win L1";
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            sensor-bindings = <&inc_dec_kp C_AC_PAN_LEFT C_AC_PAN_RIGHT>;
             bindings = <
                 &trans   &trans   &trans
                          &trans   &trans
