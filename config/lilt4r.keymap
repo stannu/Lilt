@@ -29,7 +29,7 @@
 
         mac_layer_1 {
             display-name = "Mac L1";
-            sensor-bindings = <&inc_dec_kp C_AC_PAN_LEFT C_AC_PAN_RIGHT>;
+            sensor-bindings = <&inc_dec_kp LEFT RIGHT>;
             bindings = <
                 &trans   &trans   &trans
                          &trans   &trans
@@ -68,7 +68,7 @@
 
         win_layer_1 {
             display-name = "Win L1";
-            sensor-bindings = <&inc_dec_kp C_AC_PAN_LEFT C_AC_PAN_RIGHT>;
+            sensor-bindings = <&inc_dec_kp LEFT RIGHT>;
             bindings = <
                 &trans   &trans   &trans
                          &trans   &trans
