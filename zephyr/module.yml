@@ -1,3 +1,4 @@
+name: lilt4r
 build:
   settings:
-    board_root: .
+    board_root: config

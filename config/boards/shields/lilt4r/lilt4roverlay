@@ -1,0 +1,61 @@
+#include <dt-bindings/zmk/matrix_transform.h>
+#include <dt-bindings/led/led.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,underglow = &led_strip;
+    };
+
+    // 1. キーとプッシュスイッチの配線定義 (kscan-gpio-direct)
+    kscan0: kscan_0 {
+        compatible = "zmk,kscan-gpio-direct";
+        label = "KSCAN";
+        input-gpios
+            = <&xiao_d 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // SW1 (GPIO1)
+            , <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // SW2 (GPIO26)
+            , <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // SW3 (GPIO27)
+            , <&xiao_d 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // SW4 (GPIO28)
+            , <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // RoE0 (エンコーダープッシュ, GPIO29)
+            ;
+    };
+
+    // 2. ロータリーエンコーダーの回転定義
+    encoder: encoder {
+        compatible = "alps,ec11";
+        label = "ENCODER";
+        a-gpios = <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // RoE1 (GPIO6)
+        b-gpios = <&xiao_d 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // RoE2 (GPIO7)
+        steps = <80>; // エンコーダーの仕様に合わせて調整
+        status = "okay";
+    };
+
+    sensors {
+        compatible = "zmk,keymap-sensors";
+        sensors = <&encoder>;
+        triggers-per-rotation = <20>; // クリック感の数に合わせて調整
+    };
+};
+
+// 3. LED制御用 PIOのピン設定 (GPIO0 / PIO0_P0)
+&pinctrl {
+    ws2812_pio0_default: ws2812_pio0_default {
+        ws2812 {
+            pinmux = <PIO0_P0>;
+        };
+    };
+};
+
+// 4. LEDストリップ (SK6812MINI-E) の定義
+&pio0 {
+    status = "okay";
+
+    led_strip: ws2812 {
+        compatible = "worldsemi,ws2812-rpi";
+        status = "okay";
+        pinctrl-0 = <&ws2812_pio0_default>;
+        pinctrl-names = "default";
+        chain-length = <2>; // LEDは2個
+        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+    };
+};

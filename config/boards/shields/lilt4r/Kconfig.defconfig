@@ -1,0 +1,6 @@
+if SHIELD_LILT4R
+
+config ZMK_KEYBOARD_NAME
+    default "Lilt4R"
+
+endif

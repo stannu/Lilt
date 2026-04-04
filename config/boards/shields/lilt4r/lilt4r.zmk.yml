@@ -1,0 +1,25 @@
+file_format: "1"
+id: lilt4r
+name: Lilt4R
+type: shield
+
+layouts:
+  default:
+    name: Default Layout
+    # lilt4r.keymapの bindings = < ... > の順番（SW1, SW2, SW3, SW4, Encoder）と一致させます
+    keys:
+      # 1番目のキー (SW1) - 左上
+      - x: 0
+        y: 0
+      # 2番目のキー (SW2) - 中央上
+      - x: 1
+        y: 0
+      # 3番目のキー (SW3) - 右上
+      - x: 2
+        y: 0
+      # 4番目のキー (SW4) - 中央下（左下はロゴスペースなので x: 0 ではなく 1）
+      - x: 1
+        y: 1
+      # 5番目のキー (エンコーダープッシュ) - 右下
+      - x: 2
+        y: 1

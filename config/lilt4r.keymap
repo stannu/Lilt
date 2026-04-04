@@ -1,0 +1,96 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+
+// レイヤー番号の定義（ZMK Studioや今後のコード編集で見やすくするため）
+#define MAC_BASE 0
+#define MAC_L1   1
+#define MAC_L2   2
+#define MAC_L3   3
+#define WIN_BASE 4
+#define WIN_L1   5
+#define WIN_L2   6
+#define WIN_L3   7
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        // ==========================================
+        // Mac用レイヤー (0 〜 3)
+        // ==========================================
+        mac_base_layer {
+            display-name = "Mac Base";
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            bindings = <
+                &kp RET  &kp RET  &kp RET
+                         &kp RET  &kp C_MUTE
+            >;
+        };
+
+        mac_layer_1 {
+            display-name = "Mac L1";
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            bindings = <
+                &trans   &trans   &trans
+                         &trans   &trans
+            >;
+        };
+
+        mac_layer_2 {
+            display-name = "Mac L2";
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            bindings = <
+                &trans   &trans   &trans
+                         &trans   &trans
+            >;
+        };
+
+        mac_layer_3 {
+            display-name = "Mac L3";
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            bindings = <
+                &trans   &trans   &trans
+                         &trans   &trans
+            >;
+        };
+
+        // ==========================================
+        // Windows用レイヤー (4 〜 7)
+        // ==========================================
+        win_base_layer {
+            display-name = "Win Base";
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            bindings = <
+                &kp RET  &kp RET  &kp RET
+                         &kp RET  &kp C_MUTE
+            >;
+        };
+
+        win_layer_1 {
+            display-name = "Win L1";
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            bindings = <
+                &trans   &trans   &trans
+                         &trans   &trans
+            >;
+        };
+
+        win_layer_2 {
+            display-name = "Win L2";
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            bindings = <
+                &trans   &trans   &trans
+                         &trans   &trans
+            >;
+        };
+
+        win_layer_3 {
+            display-name = "Win L3";
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
+            bindings = <
+                &trans   &trans   &trans
+                         &trans   &trans
+            >;
+        };
+    };
+};
