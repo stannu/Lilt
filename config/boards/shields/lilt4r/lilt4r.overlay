@@ -4,61 +4,52 @@
 
 / {
     chosen {
-        zmk,underglow = &led_strip;
+        // ★ zmk,underglow に「自分自身（zmk_underglow）」を指名します
+        zmk,underglow = &zmk_underglow;
         zmk,physical-layout = &default_layout;
-        // ★ここから kscan と matrix-transform を【削除】しました！
     };
 
-    // マトリクス変換
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <5>;
         rows = <1>;
-        map = <
-            RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4)
-        >;
+        map = <RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4)>;
     };
 
-    // ZMK Studio向け物理レイアウト
     physical_layouts {
         compatible = "zmk,physical-layouts";
-
         default_layout: default_layout {
             compatible = "zmk,physical-layout";
             display-name = "Default Layout";
             transform = <&default_transform>;
             kscan = <&kscan0>;
-            // 幅, 高さ, X座標, Y座標, 回転, 回転軸X, 回転軸Y
-            // ※1U = 100 として計算
             keys
-                = <&key_physical_attrs 100 100 0 0 0 0 0>       // SW1 (左上)
-                , <&key_physical_attrs 100 100 100 0 0 0 0>     // SW2 (中央上)
-                , <&key_physical_attrs 100 100 200 0 0 0 0>     // SW3 (右上)
-                , <&key_physical_attrs 100 100 100 100 0 0 0>   // SW4 (中央下)
-                , <&key_physical_attrs 100 100 200 100 0 0 0>   // Encoder (右下)
+                = <&key_physical_attrs 100 100 0 0 0 0 0>
+                , <&key_physical_attrs 100 100 100 0 0 0 0>
+                , <&key_physical_attrs 100 100 200 0 0 0 0>
+                , <&key_physical_attrs 100 100 100 100 0 0 0>
+                , <&key_physical_attrs 100 100 200 100 0 0 0>
                 ;
         };
     };
 
-    // 1. キーとプッシュスイッチの配線定義
     kscan0: kscan_0 {
         compatible = "zmk,kscan-gpio-direct";
         label = "KSCAN";
         input-gpios
-            = <&xiao_d 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // SW1 (GPIO1)
-            , <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // SW2 (GPIO26)
-            , <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // SW3 (GPIO27)
-            , <&xiao_d 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // SW4 (GPIO28)
-            , <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // RoE0 (エンコーダープッシュ, GPIO29)
+            = <&xiao_d 7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
+            , <&xiao_d 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>
             ;
     };
 
-    // 2. ロータリーエンコーダーの回転定義
     encoder: encoder {
         compatible = "alps,ec11";
         label = "ENCODER";
-        a-gpios = <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // RoE1 (GPIO6)
-        b-gpios = <&xiao_d 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>; // RoE2 (GPIO7)
+        a-gpios = <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
+        b-gpios = <&xiao_d 5 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
         steps = <80>;
         status = "okay";
     };
@@ -70,21 +61,18 @@
     };
 };
 
-// 3. LED制御用 PIOのピン設定
 &pinctrl {
-    // 辞書を使わず、直接「GPIO 0 (D6)」をPIO0機能として定義
     ws2812_pio0_default: ws2812_pio0_default {
         ws2812 {
-            pinmux = <0x00000400>; // GPIO 0, Function PIO0
+            pinmux = <0x00000400>; // GPIO 0 (D6)
         };
     };
 };
 
-// 4. LEDストリップの定義
 &pio0 {
     status = "okay";
-
-    led_strip: ws2812 {
+    // ★ ここで名前を zmk_underglow に統一します！
+    zmk_underglow: ws2812 {
         compatible = "worldsemi,ws2812-rpi";
         status = "okay";
         pinctrl-0 = <&ws2812_pio0_default>;
