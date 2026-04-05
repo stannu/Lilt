@@ -3,14 +3,18 @@
 #include <dt-bindings/led/led.h>
 
 / {
+    // ★1. chosen をやめて、aliases を使います
+    aliases {
+        led-strip = &led_strip;
+    };
+
     chosen {
-        // ★ ここを &led_strip ではなく &zmk_underglow にします
-        zmk,underglow = &zmk_underglow; 
+        zmk,underglow = &led_strip; 
         zmk,physical-layout = &default_layout;
     };
 
-    // ★ LEDの定義そのものを zmk_underglow という名前にします
-    zmk_underglow: ws2812 {
+    // ★2. 定義の compatible を「ws2812-rpi」から「worldsemi,ws2812-pio」に変更（環境依存対策）
+    led_strip: ws2812 {
         compatible = "worldsemi,ws2812-rpi";
         pinctrl-0 = <&ws2812_default>;
         pinctrl-names = "default";
@@ -18,6 +22,7 @@
         color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 
+    // --- 以下、kscanやtransformなどは変更なし ---
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <5>;
