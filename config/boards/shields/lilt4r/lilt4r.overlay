@@ -72,9 +72,10 @@
 
 // 3. LED制御用 PIOのピン設定
 &pinctrl {
+    // 辞書を使わず、直接「GPIO 0 (D6)」をPIO0機能として定義
     ws2812_pio0_default: ws2812_pio0_default {
         ws2812 {
-            pinmux = <RP2040_PINMUX(0, 4)>;
+            pinmux = <0x00000400>; // GPIO 0, Function PIO0
         };
     };
 };
