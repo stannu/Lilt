@@ -4,12 +4,13 @@
 
 / {
     chosen {
-        zmk,underglow = &led_strip;
+        // ★ ここを &led_strip ではなく &zmk_underglow にします
+        zmk,underglow = &zmk_underglow; 
         zmk,physical-layout = &default_layout;
     };
 
-    // 1. LEDストリップの定義（/ の直下に置く）
-    led_strip: ws2812 {
+    // ★ LEDの定義そのものを zmk_underglow という名前にします
+    zmk_underglow: ws2812 {
         compatible = "worldsemi,ws2812-rpi";
         pinctrl-0 = <&ws2812_default>;
         pinctrl-names = "default";
@@ -17,7 +18,6 @@
         color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
     };
 
-    // 2. マトリクス変換
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <5>;
@@ -25,7 +25,6 @@
         map = <RC(0,0) RC(0,1) RC(0,2) RC(0,3) RC(0,4)>;
     };
 
-    // 3. ZMK Studio用レイアウト
     physical_layouts {
         compatible = "zmk,physical-layouts";
         default_layout: default_layout {
@@ -43,7 +42,6 @@
         };
     };
 
-    // 4. キー配線
     kscan0: kscan_0 {
         compatible = "zmk,kscan-gpio-direct";
         label = "KSCAN";
@@ -56,7 +54,6 @@
             ;
     };
 
-    // 5. エンコーダー
     encoder: encoder {
         compatible = "alps,ec11";
         label = "ENCODER";
@@ -71,9 +68,8 @@
         sensors = <&encoder>;
         triggers-per-rotation = <20>;
     };
-}; // ← / ブロック終了
+};
 
-// 6. ピン設定（PIO機能の直接指定）
 &pinctrl {
     ws2812_default: ws2812_default {
         ws2812 {
@@ -82,7 +78,6 @@
     };
 };
 
-// 7. PIOを有効化
 &pio0 {
     status = "okay";
 };
