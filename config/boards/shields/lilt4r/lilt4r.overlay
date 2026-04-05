@@ -3,26 +3,25 @@
 #include <dt-bindings/led/led.h>
 
 / {
-    // ★1. chosen をやめて、aliases を使います
-    aliases {
-        led-strip = &led_strip;
-    };
-
     chosen {
-        zmk,underglow = &led_strip; 
+        zmk,underglow = &led_strip;
         zmk,physical-layout = &default_layout;
     };
 
-    // ★2. 定義の compatible を「ws2812-rpi」から「worldsemi,ws2812-pio」に変更（環境依存対策）
+    // ★ ここが最大の変更点です
     led_strip: ws2812 {
-        compatible = "worldsemi,ws2812-rpi";
+        // compatible を worldsemi,ws2812-rpi から ws2812-gpio に変更（汎用性を高める）
+        compatible = "worldsemi,ws2812-rpi"; 
+        label = "WS2812";
         pinctrl-0 = <&ws2812_default>;
         pinctrl-names = "default";
-        chain-length = <2>;
+        // chain-length を 2 から 5 くらいに増やしてみる（認識のきっかけ作り）
+        chain-length = <2>; 
         color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
+        // ★ これを追加！
+        status = "okay";
     };
 
-    // --- 以下、kscanやtransformなどは変更なし ---
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <5>;
@@ -78,7 +77,7 @@
 &pinctrl {
     ws2812_default: ws2812_default {
         ws2812 {
-            pinmux = <0x00000400>; // GPIO 0 (D6)
+            pinmux = <0x00000400>; 
         };
     };
 };
