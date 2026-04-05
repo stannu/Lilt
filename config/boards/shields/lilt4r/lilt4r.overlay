@@ -1,7 +1,6 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <physical_layouts.dtsi>
 #include <dt-bindings/led/led.h>
-#include <dt-bindings/pinctrl/rpi-pico-rp2040-pinctrl.h>
 
 / {
     chosen {
@@ -75,7 +74,7 @@
 &pinctrl {
     ws2812_pio0_default: ws2812_pio0_default {
         ws2812 {
-            pinmux = <PIO0_P0>;
+            pinmux = <RP2040_PINMUX(0, 4)>;
         };
     };
 };
