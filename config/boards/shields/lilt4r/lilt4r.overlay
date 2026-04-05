@@ -5,7 +5,7 @@
 / {
     chosen {
         // ★ zmk,underglow に「自分自身（zmk_underglow）」を指名します
-        zmk,underglow = &zmk_underglow;
+        zmk,underglow = &led_strip;
         zmk,physical-layout = &default_layout;
     };
 
@@ -69,15 +69,7 @@
     };
 };
 
+// PIO0の設定をシンプルに有効化
 &pio0 {
     status = "okay";
-    // ★ ここで名前を zmk_underglow に統一します！
-    zmk_underglow: ws2812 {
-        compatible = "worldsemi,ws2812-rpi";
-        status = "okay";
-        pinctrl-0 = <&ws2812_pio0_default>;
-        pinctrl-names = "default";
-        chain-length = <2>;
-        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
-    };
 };
