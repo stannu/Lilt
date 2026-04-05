@@ -1,6 +1,7 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <physical_layouts.dtsi>
 #include <dt-bindings/led/led.h>
+#include <dt-bindings/pinctrl/rpi-pico-pinctrl.h>
 
 / {
     chosen {
