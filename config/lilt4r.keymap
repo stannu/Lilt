@@ -61,8 +61,8 @@
             display-name = "Win Base";
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
             bindings = <
-                &kp RET  &kp N4   &mo WIN_L1
-                         &kp BSPC &kp C_MUTE
+                &kp RET  &kp PSCRN &mo WIN_L1
+                         &kp BSPC  &kp C_MUTE
             >;
         };
 
