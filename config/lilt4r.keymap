@@ -12,6 +12,66 @@
 #define WIN_L3   7
 
 / {
+    combos {
+        compatible = "zmk,combos";
+
+        // SW1 (0) + SW4 (3) の同時押しで Mac Base へ
+        combo_to_mac {
+            timeout-ms = <50>;
+            key-positions = <0 4>;      // SW1 + RE
+            bindings = <&to MAC_BASE>;
+        };
+
+        combo_to_mac_base {
+            timeout-ms = <50>;
+            key-positions = <0 3>;      // SW1 + SW4
+            layers = <MAC_BASE MAC_L2 MAC_L3>;
+            bindings = <&to MAC_BASE>;
+        };
+
+        combo_to_mac_l2 {
+            timeout-ms = <50>;
+            key-positions = <1 3>;      // SW2 + SW4
+            layers = <MAC_BASE MAC_L2 MAC_L3>;
+            bindings = <&to MAC_L2>;
+        };
+
+        combo_to_mac_l3 {
+            timeout-ms = <50>;
+            key-positions = <2 3>;      // SW3 + SW4
+            layers = <MAC_BASE MAC_L2 MAC_L3>;
+            bindings = <&to MAC_L3>;
+        };
+
+        // SW2 (1) + SW4 (3) の同時押しで Win Base へ
+        combo_to_win {
+            timeout-ms = <50>;
+            key-positions = <1 4>;   // SW2 と RE
+            bindings = <&to WIN_BASE>;
+        };
+
+        combo_to_win_base {
+            timeout-ms = <50>;
+            key-positions = <0 3>;      // SW1 + SW4
+            layers = <WIN_BASE WIN_L2 WIN_L3>;
+            bindings = <&to WIN_BASE>;
+        };
+
+        combo_to_win_l2 {
+            timeout-ms = <50>;
+            key-positions = <1 3>;      // SW2 + SW4
+            layers = <WIN_BASE WIN_L2 WIN_L3>;
+            bindings = <&to WIN_L2>;
+        };
+
+        combo_to_win_l3 {
+            timeout-ms = <50>;
+            key-positions = <2 3>;      // SW3 + SW4
+            layers = <WIN_BASE WIN_L2 WIN_L3>;
+            bindings = <&to WIN_L3>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
