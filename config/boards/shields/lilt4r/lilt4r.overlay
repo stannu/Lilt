@@ -8,20 +8,6 @@
         zmk,physical-layout = &default_layout;
     };
 
-    // ★ ここが最大の変更点です
-    led_strip: ws2812 {
-        // compatible を worldsemi,ws2812-rpi から ws2812-gpio に変更（汎用性を高める）
-        compatible = "worldsemi,ws2812-rpi"; 
-        label = "WS2812";
-        pinctrl-0 = <&ws2812_default>;
-        pinctrl-names = "default";
-        // chain-length を 2 から 5 くらいに増やしてみる（認識のきっかけ作り）
-        chain-length = <2>; 
-        color-mapping = <LED_COLOR_ID_GREEN LED_COLOR_ID_RED LED_COLOR_ID_BLUE>;
-        // ★ これを追加！
-        status = "okay";
-    };
-
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
         columns = <5>;
@@ -74,14 +60,51 @@
     };
 };
 
+
+
+////////////////////////////////////////////
+// LED (UNDERGLOW)
+////////////////////////////////////////////
+
 &pinctrl {
-    ws2812_default: ws2812_default {
-        ws2812 {
-            pinmux = <0x00000400>; 
+    pio0_spi0_default: pio0_spi0_default {
+        group1 {
+            pinmux = <PIO0_P0>;
         };
     };
 };
 
 &pio0 {
     status = "okay";
+
+    pio0_aspi0: pio0_spi0 {
+        pinctrl-0 = <&pio0_spi0_default>;
+        pinctrl-names = "default";
+        
+        compatible = "raspberrypi,pico-spi-pio";        // xiao rp2040 に変更必要
+        #address-cells = <1>;
+        #size-cells = <0>;
+        clocks = <&system_clk>;
+        clock-frequency = <4000000>;
+
+        clk-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
+        mosi-gpios = <&pro_micro 1 GPIO_ACTIVE_HIGH>;
+        miso-gpios = <&pro_micro 1 GPIO_ACTIVE_HIGH>;
+
+        led_strip: ws2812@0 {
+            compatible = "worldsemi,ws2812-spi";
+
+            /* SPI */
+            reg = <0>;
+            spi-max-frequency = <4000000>;
+
+            /* WS2812 */
+            chain-length = <10>;
+            spi-one-frame = <0x70>;
+            spi-zero-frame = <0x40>;
+            color-mapping = <LED_COLOR_ID_GREEN
+                             LED_COLOR_ID_RED
+                             LED_COLOR_ID_BLUE>;
+        };
+    };
 };
