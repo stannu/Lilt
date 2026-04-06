@@ -81,15 +81,15 @@
         pinctrl-0 = <&pio0_spi0_default>;
         pinctrl-names = "default";
         
-        compatible = "raspberrypi,pico-spi-pio";        // xiao rp2040 に変更必要
+        compatible = "raspberrypi,pico-spi-pio";
         #address-cells = <1>;
         #size-cells = <0>;
         clocks = <&system_clk>;
         clock-frequency = <4000000>;
 
-        clk-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
-        mosi-gpios = <&pro_micro 1 GPIO_ACTIVE_HIGH>;
-        miso-gpios = <&pro_micro 1 GPIO_ACTIVE_HIGH>;
+        clk-gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;    // 使わないので空ピンをダミーで
+        mosi-gpios = <&xiao_d 6 GPIO_ACTIVE_HIGH>;
+        miso-gpios = <&xiao_d 8 GPIO_ACTIVE_HIGH>;  // 使わないので空ピンをダミーで
 
         led_strip: ws2812@0 {
             compatible = "worldsemi,ws2812-spi";
@@ -99,7 +99,7 @@
             spi-max-frequency = <4000000>;
 
             /* WS2812 */
-            chain-length = <10>;
+            chain-length = <2>;
             spi-one-frame = <0x70>;
             spi-zero-frame = <0x40>;
             color-mapping = <LED_COLOR_ID_GREEN
