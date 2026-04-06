@@ -121,8 +121,8 @@
             display-name = "Mac L3";
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
             bindings = <
-                &kp N3 &kp N3 &kp N3
-                       &kp N3 &trans
+                &rgb_ug RGB_EFF &rgb_ug RGB_BRI &rgb_ug RGB_HUI
+                                &rgb_ug RGB_BRD &rgb_ug RGB_TOG
             >;
         };
 
@@ -160,8 +160,8 @@
             display-name = "Win L3";
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>;
             bindings = <
-                &kp N3 &kp N3 &kp N3
-                       &kp N3 &trans
+                &rgb_ug RGB_EFF &rgb_ug RGB_BRI &rgb_ug RGB_HUI
+                                &rgb_ug RGB_BRD &rgb_ug RGB_TOG
             >;
         };
     };
